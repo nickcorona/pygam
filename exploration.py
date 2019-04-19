@@ -1,4 +1,3 @@
-from pygam import datasets
 import missingno as msno
 import matplotlib.pyplot as plt
 
@@ -13,5 +12,7 @@ plt.show()  # 2 features have missing values that aren't distributed randomly. 1
 
 msno.heatmap(df)
 plt.show() # low nullity correlation +1
+
+df.to_pickle('chicago.pickle')
 
 

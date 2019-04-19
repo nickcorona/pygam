@@ -1,3 +1,2 @@
-loan-data/y.pickle
-loan-data/X.pickle
-loan-data/RejectStatsA.csv
+*.pickle
+*.csv

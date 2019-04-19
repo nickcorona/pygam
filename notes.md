@@ -1,5 +1,9 @@
 # data preparation notes
 
+## drop all missing values
+
+observations 5114 to 719. try.
+
 ## features with missing numbers
 
 features with missing values: `pm10median`, `pm25median`, `so2median`

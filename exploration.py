@@ -1,5 +1,6 @@
 import missingno as msno
 import matplotlib.pyplot as plt
+from pygam import datasets
 
 df = datasets.chicago(return_X_y=False)
 df.info()

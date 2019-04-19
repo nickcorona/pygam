@@ -1,4 +1,5 @@
 import missingno as msno
+import seaborn as sns
 import matplotlib.pyplot as plt
 from pygam import datasets
 
@@ -14,6 +15,7 @@ plt.show()  # 2 features have missing values that aren't distributed randomly. 1
 msno.heatmap(df)
 plt.show() # low nullity correlation +1
 
-df.to_pickle('chicago.pickle')
+# plot distribution of deaths
 
-
+sns.distplot(df['death']) # roughly normal distribution
+plt.show()

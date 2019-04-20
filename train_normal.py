@@ -19,13 +19,13 @@ print(search_space)
 gam_grid = LinearGAM()
 gam_grid.gridsearch(X, y, lam=lams)
 
-with open("models/gam_random_grid_search.pickle", "wb") as handle:
+with open("models/gam_random_grid_search_more_data.pickle", "wb") as handle:
     pickle.dump(gam_grid, handle)
 
 gam_grid.summary()  # (798, 118.1757), (4096, 117.7854)
 
 ## plotting
-plt.figure()
+plt.figure(figsize=(16, 16 / 1.618))
 fig, axs = plt.subplots(1, 6)
 
 titles = ["pm10median", "pm25median", "o3median", "so2median", "time", "tmpd"]

@@ -9,7 +9,7 @@ print('Read chicago dataset.')
 features_with_missing = ['pm10median', 'pm25median', 'so2median']
 
 for feature in features_with_missing:
-    df[feature] = df[feature].fillna(df[feature].median)
+    df[feature] = df[feature].fillna(df[feature].median())
 
 print('Filled missing values.')
 

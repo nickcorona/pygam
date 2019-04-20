@@ -6,7 +6,7 @@ print('Read chicago dataset.')
 
 # dropping `pm25median' because of too many missings
 # dropping `o3median` because it is insignificant to the GAM model
-drop_features = ['pm25median', 'o3median']
+drop_features = ['pm25median']
 df = df.drop(drop_features, axis=1).dropna(how='any')
 
 print(f'Dropped {drop_features} and then any rows with missing values.')

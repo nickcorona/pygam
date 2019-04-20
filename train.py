@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 from pygam import LinearGAM, s, f
 import numpy as np
 import pandas as pd
@@ -6,33 +7,32 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pickle
 
+timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
 X = pd.read_pickle("data/processed/X.pickle")
 y = pd.read_pickle("data/processed/y.pickle")
 print('Read data.')
 
-lam = np.logspace(-3, 5, 4)
-lams = [lam] * 5
-search_space = 1
-for array in lams:
-    search_space *= len(array)
-print(f'Created search space of size {search_space}.')
+lams = np.random.rand(150000, 4) * 8 - 3
+lams = np.exp(lams)
 
 # randomized grid search
-gam_grid = LinearGAM()
-print('Grid searching Linear GAM lambdas.')
+print('Initialized Linear GAM.')
+gam_grid = LinearGAM(s(0) + s(1) + s(2) + s(3))
+print("Grid searching Linear GAM's lambdas.")
 gam_grid.gridsearch(X, y, lam=lams)
 
-with open(f"models/{sys.argv[1]}.pickle", "wb") as handle:
+with open(f"models/{timestamp} {sys.argv[1]}.pickle", "wb") as handle:
     pickle.dump(gam_grid, handle)
 print('Serialized GAM as pickle.')
 
-gam_grid.summary()  # (798, 118.1757), (4096, 117.7854)
+print(gam_grid.summary())
 
 # plotting
 plt.figure(figsize=(16, 16 / 1.618))
-fig, axs = plt.subplots(1, 5)
+fig, axs = plt.subplots(1, 3)
 
-titles = ["pm10median", "o3median", "so2median", "time", "tmpd"]
+titles = ["pm10median", "time", "tmpd"]
 for i, ax in enumerate(axs):
     XX = gam_grid.generate_X_grid(term=i)
     ax.plot(XX[:, i], gam_grid.partial_dependence(term=i, X=XX))
@@ -46,4 +46,4 @@ for i, ax in enumerate(axs):
         ax.set_ylim(-30, 30)
     ax.set_title(titles[i])
 
-plt.savefig('images/{sys.argv[1]}-partial-dependency-plots.png')
+plt.savefig(f'images/{timestamp} {sys.argv[1]} partial dependency.png')

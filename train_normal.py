@@ -22,7 +22,7 @@ gam_grid = LinearGAM()
 print('Grid searching Linear GAM lambdas.')
 gam_grid.gridsearch(X, y, lam=lams)
 
-with open(f"models/{sys.argv[1]}", "wb") as handle:
+with open(f"models/{sys.argv[1]}.pickle", "wb") as handle:
     pickle.dump(gam_grid, handle)
 print('Serialized GAM as pickle.')
 
@@ -30,7 +30,7 @@ gam_grid.summary()  # (798, 118.1757), (4096, 117.7854)
 
 # plotting
 plt.figure(figsize=(16, 16 / 1.618))
-fig, axs = plt.subplots(1, 6)
+fig, axs = plt.subplots(1, 5)
 
 titles = ["pm10median", "o3median", "so2median", "time", "tmpd"]
 for i, ax in enumerate(axs):
@@ -46,4 +46,4 @@ for i, ax in enumerate(axs):
         ax.set_ylim(-30, 30)
     ax.set_title(titles[i])
 
-plt.save('images/{sys.argv[1]}')
+plt.savefig('images/{sys.argv[1]}-partial-dependency-plots.png')

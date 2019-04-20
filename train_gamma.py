@@ -1,3 +1,4 @@
+import sys
 from pygam import GammaGAM, s, f
 import numpy as np
 import pandas as pd
@@ -7,28 +8,29 @@ import pickle
 
 X = pd.read_pickle("data/processed/X.pickle")
 y = pd.read_pickle("data/processed/y.pickle")
+print('Read data.')
 
-lam = np.logspace(-3, 5, 5)
-lams = [lam] * 6
+lam = np.logspace(-3, 5, 4)
+lams = [lam] * 5
 search_space = 1
 for array in lams:
     search_space *= len(array)
-print(search_space)
+print(f'Created search space of size {search_space}.')
 
 # randomized grid search
 gam_grid = GammaGAM()
+print('Grid searching Gamma GAM lambdas.')
 gam_grid.gridsearch(X, y, lam=lams)
 
-with open("models/gam_random_grid_search_gamma.pickle", "wb") as handle:
+with open(f"models/{sys.argv[1]}.pickle", "wb") as handle:
     pickle.dump(gam_grid, handle)
+print('Serialized GAM as pickle.')
 
-print(gam_grid.summary())
+# plotting
+plt.figure(figsize=(16, 16 / 1.618))
+fig, axs = plt.subplots(1, 5)
 
-## plotting
-plt.figure()
-fig, axs = plt.subplots(1, 6)
-
-titles = ["pm10median", "pm25median", "o3median", "so2median", "time", "tmpd"]
+titles = ["pm10median", "o3median", "so2median", "time", "tmpd"]
 for i, ax in enumerate(axs):
     XX = gam_grid.generate_X_grid(term=i)
     ax.plot(XX[:, i], gam_grid.partial_dependence(term=i, X=XX))
@@ -42,4 +44,4 @@ for i, ax in enumerate(axs):
         ax.set_ylim(-30, 30)
     ax.set_title(titles[i])
 
-plt.savefig('images/partial-dependency-plots-gamma_grid_search.png')
+plt.savefig(f'images/{sys.argv[1]}-partial-dependency-plots.png')

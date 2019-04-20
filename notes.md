@@ -2,7 +2,10 @@
 
 ## drop all missing values
 
-observations 5114 to 719. try.
+- observations 5114 to 719. GCV: 117.594
+- all observations: 182.5323
+
+- imputing many missing values deteriorated model performance signficantly: 55.22% increase in GCV
 
 ## features with missing numbers
 

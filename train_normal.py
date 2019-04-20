@@ -18,7 +18,7 @@ print(f'Created search space of size {search_space}.')
 
 # randomized grid search
 gam_grid = LinearGAM()
-print('Grid searching Linear GAM.')
+print('Grid searching Linear GAM lambdas.')
 gam_grid.gridsearch(X, y, lam=lams)
 
 with open("models/gam_random_grid_search_more_data.pickle", "wb") as handle:

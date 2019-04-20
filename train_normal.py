@@ -7,20 +7,23 @@ import pickle
 
 X = pd.read_pickle("data/processed/X.pickle")
 y = pd.read_pickle("data/processed/y.pickle")
+print('Read data.')
 
 lam = np.logspace(-3, 5, 5)
 lams = [lam] * 6
 search_space = 1
 for array in lams:
     search_space *= len(array)
-print(search_space)
+print('Created search space of size' + search_space)
 
 # randomized grid search
 gam_grid = LinearGAM()
+print('Grid searching Linear GAM.')
 gam_grid.gridsearch(X, y, lam=lams)
 
 with open("models/gam_random_grid_search_more_data.pickle", "wb") as handle:
     pickle.dump(gam_grid, handle)
+print('Serialized GAM as pickle.')
 
 gam_grid.summary()  # (798, 118.1757), (4096, 117.7854)
 

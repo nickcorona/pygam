@@ -17,7 +17,7 @@ for array in lams:
 print(f'Created search space of size {search_space}.')
 
 # randomized grid search
-gam_grid=LinearGAM()
+gam_grid = LinearGAM()
 print('Grid searching Linear GAM.')
 gam_grid.gridsearch(X, y, lam=lams)
 
@@ -29,11 +29,11 @@ gam_grid.summary()  # (798, 118.1757), (4096, 117.7854)
 
 # plotting
 plt.figure(figsize=(16, 16 / 1.618))
-fig, axs=plt.subplots(1, 6)
+fig, axs = plt.subplots(1, 6)
 
-titles=["pm10median", "pm25median", "o3median", "so2median", "time", "tmpd"]
+titles = ["pm10median", "pm25median", "o3median", "so2median", "time", "tmpd"]
 for i, ax in enumerate(axs):
-    XX=gam_grid.generate_X_grid(term=i)
+    XX = gam_grid.generate_X_grid(term=i)
     ax.plot(XX[:, i], gam_grid.partial_dependence(term=i, X=XX))
     ax.plot(
         XX[:, i],
